@@ -7,7 +7,7 @@ Created on Sat Jun 17 08:51:32 2017
 
 import numpy as np
 
-path = "knapsack_big1.txt"
+path = "knapsack_small.txt"
 
 with open(path) as file:
         knapsack_size,number_of_items = map(int,file.readline().strip().split())
@@ -19,3 +19,12 @@ with open(path) as file:
 
         for i,item in enumerate(file):
             items[i] = list(map(int,item.strip().split()))
+        for item in items:
+            print(item)
+        print("ks",ks)
+
+        ksCost = np.empty([ks+1,2])
+        ksCost[:,0] = 0
+        for i in range(ni):
+            ksCost[:,1] = ksCost[:,0]
+
