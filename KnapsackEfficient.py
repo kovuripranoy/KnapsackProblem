@@ -6,8 +6,8 @@ Created on Sat Jun 17 08:51:32 2017
 """
 
 import numpy as np
-
-path = "knapsack_small.txt"
+from scipy.ndimage.interpolation import shift
+path = "knapsack1.txt"
 
 with open(path) as file:
         knapsack_size,number_of_items = map(int,file.readline().strip().split())
@@ -19,12 +19,25 @@ with open(path) as file:
 
         for i,item in enumerate(file):
             items[i] = list(map(int,item.strip().split()))
-        for item in items:
-            print(item)
-        print("ks",ks)
+#        for item in items:
+#            print(item)
+#        print("ks",ks)
 
-        ksCost = np.empty([ks+1,2])
-        ksCost[:,0] = 0
-        for i in range(ni):
-            ksCost[:,1] = ksCost[:,0]
-
+        A = np.zeros([ks+1,2])
+        A[:,0] = 0
+        maxA = lambda x,y: max(x,y)
+        maxArray = np.vectorize(maxA)
+#        print (A)
+        for i in range(1,ni+1):
+#            print (A)
+            temp1 = A[:,0]
+#            print (temp1)
+            temp2 = shift(A[:,0]+items[i-1,0],-int(items[i-1,1]),cval = 0)
+#            print(temp2)
+            A[:,1] = maxArray(temp1,temp2)
+#            print(A)
+            A[:,0] = A[:,1]
+#            print(A)
+#            if i is 5:
+#                break
+        print (A[0])
